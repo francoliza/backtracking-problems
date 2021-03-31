@@ -61,12 +61,32 @@ int nqueens(std::vector<std::vector<int>> &matrix, int column, int n) {
     return 0;
 }
 
+bool nqueens(std::vector<std::vector<int>> &matrix, int row, int column, int n) {
+    
+    if (column == n) 
+        return true;
+
+    if (row == n)
+        return false;
+
+    if (!isThreatened(matrix, row, column)) {
+        matrix[row][column] = 1;
+        if (nqueens(matrix, 0, column + 1, n)) 
+            return 1;
+        //BACKTRACK
+        matrix[row][column] = 0;
+    }
+
+    return nqueens(matrix, row + 1, column, n);
+}
+
 int main(int argc, char** argv) {
    // terminé
     int n  = std::stoi(argv[1]);
     std::vector<std::vector<int>> matrix (n , std::vector<int> (n, 0));
 
-    nqueens(matrix, 0, n);
+    //nqueens(matrix, 0, n);
+    nqueens(matrix, 0, 0, n);
     printMatrix(matrix);
     return 0;
 }
